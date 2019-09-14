@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "339217716148",
+    "firebase_url": "https://friendio-2019.firebaseio.com",
+    "project_id": "friendio-2019",
+    "storage_bucket": "friendio-2019.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:339217716148:android:9eea7a2cd6086f39de58e1",
+        "android_client_info": {
+          "package_name": "com.example.friendio_2019"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "339217716148-r6ftvfv2a22v6lhu8e821cn3eq5ddgmv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmO1yKSMISagN9yYaT9T_Hr8poBEFUfsE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "339217716148-r6ftvfv2a22v6lhu8e821cn3eq5ddgmv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
