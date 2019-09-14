@@ -14,6 +14,9 @@ public class User {
     private String mBio;
     private String mEncodedProfilePicture;
 
+    private int mAge;
+    private String mInterest;
+
     private float mLongitude;
     private float mLatitude;
 
@@ -25,6 +28,23 @@ public class User {
     }
     public void setStatusUnavail() {
         mStatus = "UNAVAIL";
+    }
+
+    // Age
+    public void setAge(int age) {
+        mAge = age;
+    }
+    public int getAge() {
+        return mAge;
+    }
+
+    // Interests
+    public String getIneterest() {
+        return mInterest;
+    }
+
+    public void setInterest(String interest) {
+        mInterest = interest;
     }
 
     // Set name of the user
