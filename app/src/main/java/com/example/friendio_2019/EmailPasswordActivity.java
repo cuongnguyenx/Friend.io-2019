@@ -33,6 +33,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 public class EmailPasswordActivity extends AppCompatActivity implements
         View.OnClickListener {
 
@@ -46,6 +52,10 @@ public class EmailPasswordActivity extends AppCompatActivity implements
     // [START declare_auth]
     private FirebaseAuth mAuth;
     // [END declare_auth]
+
+    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,10 +109,22 @@ public class EmailPasswordActivity extends AppCompatActivity implements
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                         } else {
+                            Log.d("asd", task.getException().toString());
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            if (task.getException().toString().contains("FirebaseAuthUserCollisionException")) {
+                                Toast.makeText(EmailPasswordActivity.this, "There is already an account created with this email",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+
+                            else if (task.getException().toString().contains("FirebaseAuthWeakPasswordException")) {
+                                Toast.makeText(EmailPasswordActivity.this, "The password is too short. Please create a password that is longer than 6 characters",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
                             updateUI(null);
                         }
 
@@ -131,12 +153,24 @@ public class EmailPasswordActivity extends AppCompatActivity implements
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            userRef.child("Users").child("UID").setValue(user.getUid());
+
+                            if (!user.isEmailVerified())
+                            {
+                                Toast.makeText(EmailPasswordActivity.this, "Please verify your email before logging in.",
+                                        Toast.LENGTH_SHORT).show();
+                                updateUI(null);
+                            }
+                            else {
+                                updateUI(user);
+                            }
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+
+                             Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
+                                     Toast.LENGTH_SHORT).show();
+
                             updateUI(null);
                         }
 
