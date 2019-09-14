@@ -7,6 +7,7 @@ import android.util.Base64;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 public class User {
     private String mFirstName;
@@ -30,6 +31,24 @@ public class User {
         mStatus = "UNAVAIL";
     }
 
+    public User() {
+        // Default constructor required for calls to DataSnapshot.getValue(Post.class)
+    }
+
+    public User(String firstName, String lastName, String bio, String encodedProfilePicture,
+                int age, String interest)
+    {
+        this.mFirstName = firstName;
+        this.mLastName = lastName;
+        this.mBio = bio;
+        this.mEncodedProfilePicture = encodedProfilePicture;
+        this.mAge = age;
+        this.mInterest = interest;
+        this.mLatitude = (float) 0.0;
+        this.mLongitude = (float) 0.0;
+    }
+
+
     // Age
     public void setAge(int age) {
         mAge = age;
@@ -39,7 +58,7 @@ public class User {
     }
 
     // Interests
-    public String getIneterest() {
+    public String getInterest() {
         return mInterest;
     }
 
@@ -69,14 +88,16 @@ public class User {
     }
 
     // Set coordinates of the user
-    public void setCoords(float longitude, float latitude) {
-        mLongitude = longitude;
+    public void setCoords(float latitude, float longitude) {
         mLatitude = latitude;
+        mLongitude = longitude;
     }
 
     // Get coordinates of the user
-    public float[] getCoords() {
-        float[] coords = {mLongitude, mLatitude};
+    public ArrayList<Float> getCoords() {
+        ArrayList<Float> coords = new ArrayList<>();
+        coords.add(mLatitude);
+        coords.add(mLongitude);
         return coords;
     }
 
@@ -90,6 +111,7 @@ public class User {
     }
 
     // Takes an ImageView and converts it into String to store in database
+
     public void setProfilePicture(ImageView profilePicImageView) {
         // Conversion to bitmap
         BitmapDrawable drawable = (BitmapDrawable) profilePicImageView.getDrawable();
@@ -104,9 +126,11 @@ public class User {
     }
 
     // Returns a bitmap image of user's profile picture
+
     public Bitmap getProfilePicture() {
         byte[] decodedString = Base64.decode(mEncodedProfilePicture, Base64.DEFAULT);
         Bitmap decodeByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         return decodeByte;
     }
+
 }

@@ -53,7 +53,7 @@ public class EmailPasswordActivity extends AppCompatActivity implements
     private FirebaseAuth mAuth;
     // [END declare_auth]
 
-    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
+    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users");
 
 
 
@@ -153,7 +153,11 @@ public class EmailPasswordActivity extends AppCompatActivity implements
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            userRef.child("Users").child("UID").setValue(user.getUid());
+                            User userExp = new User("Cuong", "Nguyen", "asd",
+                                    "d231", 19, "soccer");
+                            Log.w("asdsad", user.getUid());
+                            userRef.child(user.getUid()).setValue(userExp);
+
 
                             if (!user.isEmailVerified())
                             {
