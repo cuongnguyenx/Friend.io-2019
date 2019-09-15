@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -29,21 +30,30 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.SphericalUtil;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
     private static final int LOCATION_PERMISSION = 1;
     private FusedLocationProviderClient fusedLocationClient;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
-    private User user;
     private Database database;
     private String userID;
     private GoogleMap mMap;
+    private FirebaseAuth mAuth;
     private FloatingActionButton fabUpdate;
     private ArrayList<Marker> markerList;
+    private DatabaseReference userRef;
+    public User currUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +62,20 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         database = new Database();
         markerList = new ArrayList<Marker>();
-        userID = "123";
-        user = new User("a", "b", "c", "d", 17, "e");
-        database.writeUser(userID, user);
+        mAuth = FirebaseAuth.getInstance();
+        userID = mAuth.getCurrentUser().getUid();
+        userRef = FirebaseDatabase.getInstance().getReference("users");
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                currUser = new User((Map<String, Object>)dataSnapshot.child(userID).getValue());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -144,38 +165,33 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                     double latitude = location.getLatitude();
                     double longitude = location.getLongitude();
-                    new AlertDialog.Builder(MainActivity.this)
-                            .setTitle("Current location")
-                            .setMessage(latitude + " " + longitude)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .create()
-                            .show();
-                    user.setLatitude(latitude);
-                    user.setLongitude(longitude);
-                    database.writeUser(userID, user);
-                    for (Marker marker : markerList) {
-                        if (marker != null) {
-                            marker.remove();
+                    currUser.setLatitude(latitude);
+                    currUser.setLongitude(longitude);
+
+                    Marker marker = mMap.addMarker(new MarkerOptions()
+                            .position(currUser.getLatLng())
+                            .title(currUser.getFirstName()));
+                    markerList.add(marker);
+
+
+                    for (Marker markr : markerList) {
+                        if (markr != null) {
+                            markr.remove();
                         }
                     }
                     markerList.clear();
 
                     ArrayList<User> userList = database.getUsers();
                     for (User otherUser : userList) {
-                        double distance = SphericalUtil.computeDistanceBetween(user.getLatLng(),
+                        double distance = SphericalUtil.computeDistanceBetween(currUser.getLatLng(),
                                 otherUser.getLatLng());
-                        Marker marker = mMap.addMarker(new MarkerOptions()
+                        Marker mam = mMap.addMarker(new MarkerOptions()
                                 .position(otherUser.getLatLng())
                                 .title(otherUser.getFirstName())
-                                .visible(distance <= 30));
-                        markerList.add(marker);
+                                .visible(distance <= 100.0));
+                        markerList.add(mam);
                     }
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(user.getLatLng(),17.0f));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currUser.getLatLng(),17.0f));
                 }
             }
         };

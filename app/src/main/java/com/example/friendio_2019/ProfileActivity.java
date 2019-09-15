@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -72,6 +73,8 @@ public class ProfileActivity extends AppCompatActivity {
                 userRef.child(currentUserID).child("age").setValue(Long.parseLong(mText3.getText().toString()));
                 userRef.child(currentUserID).child("interest").setValue(mText4.getText().toString());
                 userRef.child(currentUserID).child("bio").setValue(mText5.getText().toString());
+                Toast.makeText(ProfileActivity.this, "Changes Successfully Made",
+                        Toast.LENGTH_LONG).show();
 
             }
         });
