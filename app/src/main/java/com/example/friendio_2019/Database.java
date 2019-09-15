@@ -6,19 +6,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Database {
     private DatabaseReference mUserDatabase;
-    private DatabaseReference mGeoDatabase;
 
     public Database() {
-        mUserDatabase = FirebaseDatabase.getInstance().getReference("/user");
-        mGeoDatabase = FirebaseDatabase.getInstance().getReference("/geofire");
+        mUserDatabase = FirebaseDatabase.getInstance().getReference("users");
     }
 
     public DatabaseReference getUserDatabaseReference() {
         return mUserDatabase;
-    }
-
-    public DatabaseReference getGeoDatabaseReference() {
-        return mGeoDatabase;
     }
 
     public void writeNewUser(String userID, User user) {
@@ -30,6 +24,7 @@ public class Database {
         mUserDatabase.child(userID).child("age").setValue(user.getAge());
         mUserDatabase.child(userID).child("profilepic").setValue(user.getEncodedProfilePicture());
         mUserDatabase.child(userID).child("status").setValue(user.isAvail());
-
+        mUserDatabase.child(userID).child("latitude").setValue(user.getLatitude());
+        mUserDatabase.child(userID).child("longitude").setValue(user.getLatitude());
     }
 }
