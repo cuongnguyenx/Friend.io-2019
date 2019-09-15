@@ -163,6 +163,8 @@ public class EmailPasswordActivity extends AppCompatActivity implements
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if (dataSnapshot.hasChild(user.getUid())) {
                                         Log.d("User Exists!", "To the Main Screen!");
+                                        Intent goToMainApp = new Intent(EmailPasswordActivity.this, MainActivity.class);
+                                        startActivity(goToMainApp);
                                         // Proceed to Main App
                                     }
                                     else {

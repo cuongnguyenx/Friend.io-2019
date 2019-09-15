@@ -101,4 +101,5 @@
     <string name="bio">Tell us a bit about yourself</string>
     <string name="interests">What are you interested in?</string>
     <string name="uploadImage">Upload Image</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
