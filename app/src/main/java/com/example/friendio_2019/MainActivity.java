@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mImage1;
     private FirebaseAuth mAuth;
     private User currentUser;
-
+    private String currentUserID;
     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users");
     DatabaseReference locationRef = FirebaseDatabase.getInstance().getReference("location");
 
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         mText5 = findViewById(R.id.text5);
         mImage1 = findViewById(R.id.image1);
         mAuth = FirebaseAuth.getInstance();
-        String currentUserID = mAuth.getCurrentUser().getUid();
+        currentUserID = mAuth.getCurrentUser().getUid();
         Log.d("UID", currentUserID);
         setData();
     }
@@ -64,19 +64,15 @@ public class MainActivity extends AppCompatActivity {
         ValueEventListener userListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                currentUser = dataSnapshot.getValue(User.class);
-                Log.d("asdsa", currentUser.toString());
-                Log.d("First Name", currentUser.getFirstName());
-                mText1.setText(currentUser.getFirstName());
-                Log.d("Last Name", currentUser.getLastName());
-                mText2.setText(currentUser.getLastName());
-                mText3.setText(String.valueOf(currentUser.getAge()));
-                mText4.setText(currentUser.getBio());
-                mText5.setText(currentUser.getInterest());
+                mText1.setText(dataSnapshot.child("firstName").getValue().toString());
+                mText2.setText(dataSnapshot.child("lastName").getValue().toString());
+                mText3.setText(String.valueOf(dataSnapshot.child("age").getValue().toString()));
+                mText4.setText(dataSnapshot.child("bio").getValue().toString());
+                mText5.setText(dataSnapshot.child("interest").getValue().toString());
 
-                // byte[] decodedString = Base64.decode(currentUser.getEncodedProfilePicture(), Base64.DEFAULT);
-                // Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                // mImage1.setImageBitmap(decodedByte);
+                byte[] decodedString = Base64.decode(dataSnapshot.child("encodedProfilePicture").getValue().toString(), Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                mImage1.setImageBitmap(decodedByte);
             }
 
             @Override
@@ -85,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 // ...
             }
         };
-        userRef.addListenerForSingleValueEvent(userListener);
+        userRef.child(currentUserID).addListenerForSingleValueEvent(userListener);
     }
 
 }
