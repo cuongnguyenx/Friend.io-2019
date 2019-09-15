@@ -1,6 +1,11 @@
 package com.example.friendio_2019;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
@@ -16,6 +21,7 @@ public class Database {
     private DatabaseReference mUserDatabase;
 
     private ArrayList<User> mUserList;
+    private User currentUser;
 
     public Database() {
         mUserDatabase = FirebaseDatabase.getInstance().getReference("testing-users");
@@ -48,6 +54,7 @@ public class Database {
         mUserList = userList;
 
     }
+
 
     public ArrayList<User> getUsers() {
         return mUserList;
