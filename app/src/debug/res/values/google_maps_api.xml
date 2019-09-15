@@ -1,0 +1,24 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=F9:B2:35:7A:EB:FC:86:A0:34:5D:4D:78:8F:68:14:A8:A2:80:7D:AE%3Bcom.example.friendio_2019
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    F9:B2:35:7A:EB:FC:86:A0:34:5D:4D:78:8F:68:14:A8:A2:80:7D:AE
+
+    SHA-1 certificate fingerprint:
+    F9:B2:35:7A:EB:FC:86:A0:34:5D:4D:78:8F:68:14:A8:A2:80:7D:AE
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBDT1HFFIYczLei_FbKoTMi_A_EA9HqssI</string>
+</resources>

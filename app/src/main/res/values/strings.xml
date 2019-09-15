@@ -102,4 +102,5 @@
     <string name="interests">What are you interested in?</string>
     <string name="uploadImage">Upload Image</string>
     <string name="title_activity_location">LocationActivity</string>
+    <string name="title_activity_main">Map</string>
 </resources>
