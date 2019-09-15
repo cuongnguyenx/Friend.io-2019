@@ -16,6 +16,8 @@ public class User {
     private String mInterest;
     private String mStatus;
     private int mAge;
+    private double mLatitude;
+    private double mLongitude;
 
     // Setting status
     public void setStatusAvail() {
@@ -31,13 +33,15 @@ public class User {
     }
 
     public User(String firstName, String lastName, String bio, String encodedProfilePicture,
-                int age, String interest) {
+                int age, String interest, Double latitude, Double longitude) {
         this.mFirstName = firstName;
         this.mLastName = lastName;
         this.mBio = bio;
         this.mEncodedProfilePicture = encodedProfilePicture;
         this.mAge = age;
         this.mInterest = interest;
+        this.mLatitude = latitude;
+        this.mLongitude = longitude;
     }
 
     // Age
@@ -88,6 +92,23 @@ public class User {
         } else {
             return false;
         }
+    }
+
+    // Coordinates
+    public void setLatitude(Double latitude) {
+        this.mLatitude = latitude;
+    }
+
+    public double getLatitude() {
+        return this.mLatitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.mLongitude = longitude;
+    }
+
+    public double getLongitude() {
+        return this.mLongitude;
     }
 
     // Takes an ImageView and converts it into String to store in database

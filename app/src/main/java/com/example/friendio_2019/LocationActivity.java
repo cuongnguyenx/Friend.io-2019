@@ -6,16 +6,11 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 
-import com.firebase.geofire.GeoFire;
-import com.firebase.geofire.GeoLocation;
-import com.firebase.geofire.GeoQuery;
-import com.firebase.geofire.GeoQueryEventListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
 import androidx.annotation.NonNull;
@@ -33,9 +28,7 @@ public class LocationActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
-    private GeoFire geoFire;
-    private GeoQuery geoQuery;
-    private String userID;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +38,7 @@ public class LocationActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Database localDatabase = new Database();
-        DatabaseReference ref = localDatabase.getGeoDatabaseReference();
-        geoFire = new GeoFire(ref);
-        userID = "omegalul";
+        DatabaseReference ref = localDatabase.getUserDatabaseReference();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         if (ContextCompat.checkSelfPermission(LocationActivity.this,
@@ -109,33 +100,6 @@ public class LocationActivity extends AppCompatActivity {
         locationRequest.setInterval(10000);
         locationRequest.setFastestInterval(5000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        geoQuery = geoFire.queryAtLocation(new GeoLocation(0.0, 0.0), 0.009144); // 30 feet
-        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
-            @Override
-            public void onKeyEntered(String key, GeoLocation location) {
-                System.out.println(String.format("Key %s entered the search area at [%f,%f]", key, location.latitude, location.longitude));
-            }
-
-            @Override
-            public void onKeyExited(String key) {
-                System.out.println(String.format("Key %s is no longer in the search area", key));
-            }
-
-            @Override
-            public void onKeyMoved(String key, GeoLocation location) {
-                System.out.println(String.format("Key %s moved within the search area to [%f,%f]", key, location.latitude, location.longitude));
-            }
-
-            @Override
-            public void onGeoQueryReady() {
-                System.out.println("All initial data has been loaded and events have been fired!");
-            }
-
-            @Override
-            public void onGeoQueryError(DatabaseError error) {
-                System.err.println("There was an error with this query: " + error);
-            }
-        });
 
         locationCallback = new LocationCallback() {
             @Override
@@ -147,10 +111,11 @@ public class LocationActivity extends AppCompatActivity {
                     if (location == null) {
                         continue;
                     }
-                    GeoLocation geoLocation = new GeoLocation(location.getLatitude(), location.getLongitude());
+                    Double latitude = location.getLatitude();
+                    Double longitude = location.getLongitude();
                     new AlertDialog.Builder(LocationActivity.this)
                             .setTitle("Current location")
-                            .setMessage(geoLocation.latitude + " " + geoLocation.longitude)
+                            .setMessage(latitude + " " + longitude)
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -159,18 +124,6 @@ public class LocationActivity extends AppCompatActivity {
                             })
                             .create()
                             .show();
-
-                    geoFire.setLocation(userID, geoLocation, new GeoFire.CompletionListener() {
-                        @Override
-                        public void onComplete(String key, DatabaseError error) {
-                            if (error != null) {
-                                System.out.println("Location saved unsuccessfully");
-                            } else {
-                                System.out.println("Location saved on server successfully!");
-                            }
-                        }
-                    });
-                    geoQuery.setCenter(geoLocation);
                 }
             }
         };
