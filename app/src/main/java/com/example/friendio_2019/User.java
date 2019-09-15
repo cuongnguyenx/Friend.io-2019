@@ -10,15 +10,15 @@ import java.io.ByteArrayOutputStream;
 import java.util.Map;
 
 public class User {
-    private String mFirstName;
-    private String mLastName;
-    private String mBio;
-    private String mEncodedProfilePicture;
-    private String mInterest;
-    private boolean mStatus;
-    private long mAge;
-    private double mLatitude;
-    private double mLongitude;
+    private String firstName;
+    private String lastName;
+    private String bio;
+    private String encodedProfilePicture;
+    private String interest;
+    private boolean status;
+    private long age;
+    private double latitude;
+    private double longitude;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
@@ -26,93 +26,93 @@ public class User {
 
     public User(String firstName, String lastName, String bio, String encodedProfilePicture,
                 int age, String interest) {
-        this.mFirstName = firstName;
-        this.mLastName = lastName;
-        this.mBio = bio;
-        this.mEncodedProfilePicture = encodedProfilePicture;
-        this.mAge = age;
-        this.mInterest = interest;
-        this.mLatitude = this.mLongitude = 0.01;
-        this.mStatus = true;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.bio = bio;
+        this.encodedProfilePicture = encodedProfilePicture;
+        this.age = age;
+        this.interest = interest;
+        this.latitude = this.longitude = 0.01;
+        this.status = true;
     }
 
     public User(Map<String, Object> user) {
-        this.mFirstName = (String) user.get("firstname");
-        this.mLastName = (String) user.get("lastname");
-        this.mBio = (String) user.get("bio");
-        this.mAge = (long) user.get("age");
-        this.mInterest = (String) user.get("interest");
-        this.mEncodedProfilePicture = (String) user.get("profilepic");
-        this.mStatus = (boolean) user.get("status");
-        this.mLatitude = (double) user.get("latitude");
-        this.mLongitude = (double) user.get("longitude");
+        this.firstName = (String) user.get("firstName");
+        this.lastName = (String) user.get("lastName");
+        this.bio = (String) user.get("bio");
+        this.age = (long) user.get("age");
+        this.interest = (String) user.get("interest");
+        this.encodedProfilePicture = (String) user.get("encodedProfilePicture");
+        this.status = (boolean) user.get("status");
+        this.latitude = (double) user.get("latitude");
+        this.longitude = (double) user.get("longitude");
     }
 
     // Age
     public void setAge(long age) {
-        mAge = age;
+        age = age;
     }
 
     public long getAge() {
-        return mAge;
+        return age;
     }
 
     // Interests
-    public String getInterest() {
-        return mInterest;
+    public void setInterest(String interest) {
+        interest = interest;
     }
 
-    public void setInterest(String interest) {
-        mInterest = interest;
+    public String getInterest() {
+        return interest;
     }
 
     // Set name of the user
     public void setName(String firstName, String lastName) {
-        mFirstName = firstName;
-        mLastName = lastName;
+        firstName = firstName;
+        lastName = lastName;
     }
 
     public void setBio(String bio) {
-        mBio = bio;
+        bio = bio;
     }
 
     public String getBio() {
-        return mBio;
+        return bio;
     }
 
     // Get name of user
     public String getFirstName() {
-        return mFirstName;
+        return firstName;
     }
 
     public String getLastName() {
-        return mLastName;
+        return lastName;
     }
 
     // Returns true if the user is available
-    public boolean isAvail() {
-        return mStatus;
+    public boolean getStatus() {
+        return status;
     }
 
     // Coordinates
     public void setLatitude(Double latitude) {
-        this.mLatitude = latitude;
+        this.latitude = latitude;
     }
 
     public double getLatitude() {
-        return this.mLatitude;
+        return this.latitude;
     }
 
     public void setLongitude(Double longitude) {
-        this.mLongitude = longitude;
+        this.longitude = longitude;
     }
 
     public double getLongitude() {
-        return this.mLongitude;
+        return this.longitude;
     }
 
     // Takes an ImageView and converts it into String to store in database
-    public void setProfilePicture(ImageView profilePicImageView) {
+    public void setEncodedProfilePicture(ImageView profilePicImageView) {
         // Conversion to bitmap
         BitmapDrawable drawable = (BitmapDrawable) profilePicImageView.getDrawable();
         Bitmap bitmapProfilePic = drawable.getBitmap();
@@ -122,13 +122,13 @@ public class User {
         bitmapProfilePic.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] byteArrayImage = baos.toByteArray();
 
-        mEncodedProfilePicture = Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
+        encodedProfilePicture = Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
     }
 
     // Returns a bitmap image of user's profile picture
     public String getEncodedProfilePicture() {
-        if (mEncodedProfilePicture != null) {
-            return mEncodedProfilePicture;
+        if (encodedProfilePicture != null) {
+            return encodedProfilePicture;
         }
         return null;
     }

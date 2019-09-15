@@ -66,13 +66,13 @@ public class Database {
 
     public void writeUser(String userID, User user) {
 
-        mUserDatabase.child(userID).child("firstname").setValue(user.getFirstName());
-        mUserDatabase.child(userID).child("lastname").setValue(user.getLastName());
+        mUserDatabase.child(userID).child("firstName").setValue(user.getFirstName());
+        mUserDatabase.child(userID).child("lastName").setValue(user.getLastName());
         mUserDatabase.child(userID).child("bio").setValue(user.getBio());
         mUserDatabase.child(userID).child("interest").setValue(user.getInterest());
         mUserDatabase.child(userID).child("age").setValue(user.getAge());
-        mUserDatabase.child(userID).child("profilepic").setValue(user.getEncodedProfilePicture());
-        mUserDatabase.child(userID).child("status").setValue(user.isAvail());
+        mUserDatabase.child(userID).child("encodedProfilePicture").setValue(user.getEncodedProfilePicture());
+        mUserDatabase.child(userID).child("status").setValue(user.getStatus());
         mUserDatabase.child(userID).child("latitude").setValue(user.getLatitude());
         mUserDatabase.child(userID).child("longitude").setValue(user.getLatitude());
     }
