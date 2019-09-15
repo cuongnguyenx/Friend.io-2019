@@ -29,6 +29,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
     private TextView mText1;
     private TextView mText2;
@@ -56,7 +58,14 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
         Log.d("UID", currentUserID);
+
         setData();
+
+        // Database db = new Database(currentUserID);
+        // db.initDatabase();
+        // User currentUser = db.getCurrentUser();
+        Log.d("Dsads", currentUser.getFirstName());
+
     }
 
     private void setData()
@@ -64,16 +73,18 @@ public class MainActivity extends AppCompatActivity {
         ValueEventListener userListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                currentUser = new User((Map<String, Object>) dataSnapshot.getValue());
+                Log.d("dasd", currentUser.getFirstName());
 
-                byte[] decodedString = Base64.decode(dataSnapshot.child("encodedProfilePicture").getValue().toString(), Base64.DEFAULT);
+                byte[] decodedString = Base64.decode(currentUser.getEncodedProfilePicture(), Base64.DEFAULT);
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                 mImage1.setImageBitmap(decodedByte);
 
-                mText1.setText(dataSnapshot.child("firstName").getValue().toString());
-                mText2.setText(dataSnapshot.child("lastName").getValue().toString());
-                mText3.setText(dataSnapshot.child("age").getValue().toString());
-                mText4.setText(dataSnapshot.child("bio").getValue().toString());
-                mText5.setText(dataSnapshot.child("interest").getValue().toString());
+                mText1.setText(currentUser.getFirstName());
+                mText2.setText(currentUser.getLastName());
+                mText3.setText(currentUser.getInterest());
+                mText4.setText(currentUser.getBio());
+                mText5.setText(Long.toString(currentUser.getAge()));
 
             }
 
