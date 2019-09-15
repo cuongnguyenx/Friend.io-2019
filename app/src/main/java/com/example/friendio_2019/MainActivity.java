@@ -1,5 +1,6 @@
 package com.example.friendio_2019;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -53,35 +54,38 @@ public class MainActivity extends AppCompatActivity {
         mText5 = findViewById(R.id.text5);
         mImage1 = findViewById(R.id.image1);
         mAuth = FirebaseAuth.getInstance();
+        String currentUserID = mAuth.getCurrentUser().getUid();
+        Log.d("UID", currentUserID);
         setData();
     }
 
     private void setData()
     {
-        String currentUserID = mAuth.getCurrentUser().getUid();
-        Log.d("UID", currentUserID);
-
-        userRef.child(currentUserID).addListenerForSingleValueEvent(new ValueEventListener() {
+        ValueEventListener userListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currentUser = dataSnapshot.getValue(User.class);
+                Log.d("asdsa", currentUser.toString());
+                Log.d("First Name", currentUser.getFirstName());
+                mText1.setText(currentUser.getFirstName());
+                Log.d("Last Name", currentUser.getLastName());
+                mText2.setText(currentUser.getLastName());
+                mText3.setText(String.valueOf(currentUser.getAge()));
+                mText4.setText(currentUser.getBio());
+                mText5.setText(currentUser.getInterest());
+
+                // byte[] decodedString = Base64.decode(currentUser.getEncodedProfilePicture(), Base64.DEFAULT);
+                // Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                // mImage1.setImageBitmap(decodedByte);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("ABCDE", "loadUser:onCancelled", databaseError.toException());
+                // ...
             }
-        });
-
-        mText1.setText(currentUser.getFirstName());
-        mText2.setText(currentUser.getLastName());
-        mText3.setText(currentUser.getAge());
-        mText4.setText(currentUser.getBio());
-        mText5.setText(currentUser.getInterest());
-
-        byte[] decodedString = Base64.decode(currentUser.getEncodedProfilePicture(), Base64.DEFAULT);
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        mImage1.setImageBitmap(decodedByte);
+        };
+        userRef.addListenerForSingleValueEvent(userListener);
     }
 
 }
