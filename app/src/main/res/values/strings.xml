@@ -92,4 +92,13 @@
     <string name="id_fmt">User ID: %s</string>
     <string name="email_fmt">Email: %s</string>
     <string name="title_activity_registration">RegistrationActivity</string>
+
+    <string name="register">Register</string>
+    <string name="tag">Before making new friends, you should tell them a bit about yourself first!</string>
+    <string name="firstName">First Name</string>
+    <string name="lastName">Last Name</string>
+    <string name="age">Age</string>
+    <string name="bio">Tell us a bit about yourself</string>
+    <string name="interests">What are you interested in?</string>
+    <string name="uploadImage">Upload Image</string>
 </resources>

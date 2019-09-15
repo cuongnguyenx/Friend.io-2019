@@ -15,6 +15,7 @@
  */
 package com.example.friendio_2019;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -166,7 +167,8 @@ public class EmailPasswordActivity extends AppCompatActivity implements
                                     }
                                     else {
                                         Log.d("User Does Not Exists!", "You need to register first!");
-                                        // userRef.child(user.getUid()).setValue(dummyuserToBeAdded);
+                                        Intent createProfile = new Intent(EmailPasswordActivity.this, RegistrationActivity.class);
+                                        startActivity(createProfile);
                                         // Proceed to Registration Screen
                                     }
                                     // check if data for the current user exist in the database. If not, redirect to registration screen

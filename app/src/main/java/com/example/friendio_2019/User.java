@@ -105,17 +105,10 @@ public class User {
     }
 
     // Returns a bitmap image of user's profile picture
-    public Bitmap getProfilePicture() {
+    public String getEncodedProfilePicture() {
         if (mEncodedProfilePicture != null) {
-            byte[] decodedString = Base64.decode(mEncodedProfilePicture, Base64.DEFAULT);
-            Bitmap decodeByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            return decodeByte;
+            return mEncodedProfilePicture;
         }
         return null;
-    }
-
-    // Returns the encoded profile picture
-    public String getEncodedProfilePicture() {
-        return mEncodedProfilePicture;
     }
 }
