@@ -30,7 +30,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         fabUpdate = findViewById(R.id.profileButton);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fabUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
               Intent changeProfile = new Intent(MainActivity.this, ProfileActivity.class);
