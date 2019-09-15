@@ -54,6 +54,7 @@ public class EmailPasswordActivity extends AppCompatActivity implements
     // [END declare_auth]
 
     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users");
+    DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference("location");
 
 
 
@@ -152,12 +153,30 @@ public class EmailPasswordActivity extends AppCompatActivity implements
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            User userExp = new User("Cuong", "Nguyen", "asd",
+                            final FirebaseUser user = mAuth.getCurrentUser();
+                            final User userToBeAdded = new User("Cuong", "Nguyen", "asd",
                                     "d231", 19, "soccer");
-                            Log.w("asdsad", user.getUid());
-                            userRef.child(user.getUid()).setValue(userExp);
 
+                            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.hasChild(user.getUid())) {
+                                        Log.d("User Exists!", "11111");
+                                        // Proceed to Main App
+                                    }
+                                    else {
+                                        Log.d("User Does Not Exists!", "22222");
+                                        userRef.child(user.getUid()).setValue(userToBeAdded);
+                                        // Proceed to Registration Screen
+                                    }
+                                    // check if data for the current user exist in the database. If not, redirect to registration screen
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
 
                             if (!user.isEmailVerified())
                             {

@@ -87,20 +87,6 @@ public class User {
         return mLastName;
     }
 
-    // Set coordinates of the user
-    public void setCoords(float latitude, float longitude) {
-        mLatitude = latitude;
-        mLongitude = longitude;
-    }
-
-    // Get coordinates of the user
-    public ArrayList<Float> getCoords() {
-        ArrayList<Float> coords = new ArrayList<>();
-        coords.add(mLatitude);
-        coords.add(mLongitude);
-        return coords;
-    }
-
     // Returns true if the user is available
     public boolean isAvail() {
         if (mStatus == "AVAIL") {
