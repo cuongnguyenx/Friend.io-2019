@@ -7,26 +7,21 @@ import android.util.Base64;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 
 public class User {
     private String mFirstName;
     private String mLastName;
     private String mBio;
     private String mEncodedProfilePicture;
-
-    private int mAge;
     private String mInterest;
-
-    private float mLongitude;
-    private float mLatitude;
-
     private String mStatus;
+    private int mAge;
 
     // Setting status
     public void setStatusAvail() {
         mStatus = "AVAIL";
     }
+
     public void setStatusUnavail() {
         mStatus = "UNAVAIL";
     }
@@ -36,23 +31,20 @@ public class User {
     }
 
     public User(String firstName, String lastName, String bio, String encodedProfilePicture,
-                int age, String interest)
-    {
+                int age, String interest) {
         this.mFirstName = firstName;
         this.mLastName = lastName;
         this.mBio = bio;
         this.mEncodedProfilePicture = encodedProfilePicture;
         this.mAge = age;
         this.mInterest = interest;
-        this.mLatitude = (float) 0.0;
-        this.mLongitude = (float) 0.0;
     }
-
 
     // Age
     public void setAge(int age) {
         mAge = age;
     }
+
     public int getAge() {
         return mAge;
     }
@@ -72,9 +64,10 @@ public class User {
         mLastName = lastName;
     }
 
-    public void setBio(String bio){
+    public void setBio(String bio) {
         mBio = bio;
     }
+
     public String getBio() {
         return mBio;
     }
@@ -83,6 +76,7 @@ public class User {
     public String getFirstName() {
         return mFirstName;
     }
+
     public String getLastName() {
         return mLastName;
     }
@@ -97,7 +91,6 @@ public class User {
     }
 
     // Takes an ImageView and converts it into String to store in database
-
     public void setProfilePicture(ImageView profilePicImageView) {
         // Conversion to bitmap
         BitmapDrawable drawable = (BitmapDrawable) profilePicImageView.getDrawable();
@@ -112,11 +105,17 @@ public class User {
     }
 
     // Returns a bitmap image of user's profile picture
-
     public Bitmap getProfilePicture() {
-        byte[] decodedString = Base64.decode(mEncodedProfilePicture, Base64.DEFAULT);
-        Bitmap decodeByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        return decodeByte;
+        if (mEncodedProfilePicture != null) {
+            byte[] decodedString = Base64.decode(mEncodedProfilePicture, Base64.DEFAULT);
+            Bitmap decodeByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            return decodeByte;
+        }
+        return null;
     }
 
+    // Returns the encoded profile picture
+    public String getEncodedProfilePicture() {
+        return mEncodedProfilePicture;
+    }
 }
