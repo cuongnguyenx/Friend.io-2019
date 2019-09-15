@@ -2,7 +2,9 @@ package com.example.friendio_2019;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -10,10 +12,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private FloatingActionButton fabUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +28,15 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        fabUpdate = findViewById(R.id.profileButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              Intent changeProfile = new Intent(MainActivity.this, ProfileActivity.class);
+              startActivity(changeProfile);
+            }
+        });
     }
 
 
@@ -38,11 +52,12 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setMinZoomPreference(17.0f);
+        mMap.setMaxZoomPreference(20.0f);
 
         // Add a marker in Sydney and move the camera
         LatLng bellTower = new LatLng(40.4272, -86.914);
         mMap.addMarker(new MarkerOptions().position(bellTower).title("Marker in West Lafayette"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(bellTower, 17.0f));
-
     }
 }
