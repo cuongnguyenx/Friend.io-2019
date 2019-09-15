@@ -40,7 +40,8 @@ public class Database {
         if (users != null) {
             for (Map.Entry<String, Object> entry: users.entrySet()) {
                 Map singleUser = (Map) entry.getValue();
-                userList.add((User) singleUser);
+                User usr = new User(singleUser);
+                userList.add(usr);
             }
         }
 
