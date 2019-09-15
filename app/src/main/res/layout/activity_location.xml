@@ -20,11 +20,4 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Button"
-        android:id="@+id/updateButton"/>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

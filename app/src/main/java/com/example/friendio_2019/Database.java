@@ -9,8 +9,8 @@ public class Database {
     private DatabaseReference mGeoDatabase;
 
     public Database() {
-        mUserDatabase = FirebaseDatabase.getInstance().getReference();
-        mGeoDatabase = FirebaseDatabase.getInstance().getReference("/geofire");
+        mUserDatabase = FirebaseDatabase.getInstance().getReference("users");
+        mGeoDatabase = FirebaseDatabase.getInstance().getReference("geofire");
     }
 
     public DatabaseReference getUserDatabaseReference() {
@@ -23,13 +23,13 @@ public class Database {
 
     public void writeNewUser(String userID, User user) {
 
-        mUserDatabase.child("users").child(userID).child("firstname").setValue(user.getFirstName());
-        mUserDatabase.child("users").child(userID).child("lastname").setValue(user.getLastName());
-        mUserDatabase.child("users").child(userID).child("bio").setValue(user.getBio());
-        mUserDatabase.child("users").child(userID).child("interest").setValue(user.getInterest());
-        mUserDatabase.child("users").child(userID).child("age").setValue(user.getAge());
-        mUserDatabase.child("users").child(userID).child("profilepic").setValue(user.getEncodedProfilePicture());
-        mUserDatabase.child("users").child(userID).child("status").setValue(user.isAvail());
+        mUserDatabase.child(userID).child("firstname").setValue(user.getFirstName());
+        mUserDatabase.child(userID).child("lastname").setValue(user.getLastName());
+        mUserDatabase.child(userID).child("bio").setValue(user.getBio());
+        mUserDatabase.child(userID).child("interest").setValue(user.getInterest());
+        mUserDatabase.child(userID).child("age").setValue(user.getAge());
+        mUserDatabase.child(userID).child("profilepic").setValue(user.getEncodedProfilePicture());
+        mUserDatabase.child(userID).child("status").setValue(user.isAvail());
 
     }
 }
