@@ -13,14 +13,10 @@ public class User {
     private String mLastName;
     private String mBio;
     private String mEncodedProfilePicture;
-
-    private int mAge;
     private String mInterest;
-
-    private float mLongitude;
-    private float mLatitude;
-
     private String mStatus;
+    private int mAge;
+
 
     // Setting status
     public void setStatusAvail() {
@@ -39,7 +35,7 @@ public class User {
     }
 
     // Interests
-    public String getIneterest() {
+    public String getInterest() {
         return mInterest;
     }
 
@@ -68,18 +64,6 @@ public class User {
         return mLastName;
     }
 
-    // Set coordinates of the user
-    public void setCoords(float longitude, float latitude) {
-        mLongitude = longitude;
-        mLatitude = latitude;
-    }
-
-    // Get coordinates of the user
-    public float[] getCoords() {
-        float[] coords = {mLongitude, mLatitude};
-        return coords;
-    }
-
     // Returns true if the user is available
     public boolean isAvail() {
         if (mStatus == "AVAIL") {
@@ -105,8 +89,16 @@ public class User {
 
     // Returns a bitmap image of user's profile picture
     public Bitmap getProfilePicture() {
-        byte[] decodedString = Base64.decode(mEncodedProfilePicture, Base64.DEFAULT);
-        Bitmap decodeByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        return decodeByte;
+        if (mEncodedProfilePicture != null) {
+            byte[] decodedString = Base64.decode(mEncodedProfilePicture, Base64.DEFAULT);
+            Bitmap decodeByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            return decodeByte;
+        }
+        return null;
+    }
+
+    // Returns the encoded profile picture
+    public String getEncodedProfilePicture() {
+        return mEncodedProfilePicture;
     }
 }
