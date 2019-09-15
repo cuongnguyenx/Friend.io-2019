@@ -68,10 +68,10 @@ public class ProfileActivity extends AppCompatActivity {
                     return;
                 }
                 userRef.child(currentUserID).child("firstName").setValue(mText1.getText().toString());
-                userRef.child(currentUserID).child("lastName").setValue(mText1.getText().toString());
-                userRef.child(currentUserID).child("age").setValue(mText1.getText().toString());
-                userRef.child(currentUserID).child("interest").setValue(mText1.getText().toString());
-                userRef.child(currentUserID).child("bio").setValue(mText1.getText().toString());
+                userRef.child(currentUserID).child("lastName").setValue(mText2.getText().toString());
+                userRef.child(currentUserID).child("age").setValue(Long.parseLong(mText3.getText().toString()));
+                userRef.child(currentUserID).child("interest").setValue(mText4.getText().toString());
+                userRef.child(currentUserID).child("bio").setValue(mText5.getText().toString());
 
             }
         });
