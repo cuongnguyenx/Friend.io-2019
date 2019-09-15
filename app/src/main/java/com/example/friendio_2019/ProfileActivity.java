@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Base64;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,11 +24,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
-    private TextView mText1;
-    private TextView mText2;
-    private TextView mText3;
-    private TextView mText4;
-    private TextView mText5;
+    private EditText mText1;
+    private EditText mText2;
+    private EditText mText3;
+    private EditText mText4;
+    private EditText mText5;
     private ImageView mImage1;
     private FirebaseAuth mAuth;
     private User currentUser;
@@ -40,11 +41,11 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        mText1 = findViewById(R.id.text1);
-        mText2 = findViewById(R.id.text2);
-        mText3 = findViewById(R.id.text3);
-        mText4 = findViewById(R.id.text4);
-        mText5 = findViewById(R.id.text5);
+        mText1 = findViewById(R.id.textFN);
+        mText2 = findViewById(R.id.textLN);
+        mText3 = findViewById(R.id.textAge);
+        mText4 = findViewById(R.id.textHB);
+        mText5 = findViewById(R.id.textIN);
         mImage1 = findViewById(R.id.image1);
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
@@ -73,9 +74,10 @@ public class ProfileActivity extends AppCompatActivity {
 
                 mText1.setText(currentUser.getFirstName());
                 mText2.setText(currentUser.getLastName());
-                mText3.setText(currentUser.getInterest());
-                mText4.setText(currentUser.getBio());
-                mText5.setText(Long.toString(currentUser.getAge()));
+                mText3.setText(Long.toString(currentUser.getAge()));
+                mText4.setText(currentUser.getInterest());
+                mText5.setText(currentUser.getBio());
+
 
             }
 
