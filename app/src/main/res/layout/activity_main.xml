@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="15dp"
         android:contentDescription="man"/>
 
     <TextView
@@ -23,7 +23,7 @@
         android:textAlignment="center"
         android:textSize="20sp"
         android:layout_marginStart="25dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="15dp"
         android:fontFamily="@font/roboto_regular"
         android:layout_marginTop="60dp"/>
 
@@ -35,7 +35,7 @@
         android:textSize="20sp"
         android:fontFamily="@font/roboto_regular"
         android:layout_marginStart="25dp"
-        android:layout_marginBottom="50dp"/>
+        android:layout_marginBottom="15dp"/>
 
     <TextView
         android:id="@+id/text3"
@@ -45,7 +45,7 @@
         android:textSize="20sp"
         android:fontFamily="@font/roboto_regular"
         android:layout_marginStart="25dp"
-        android:layout_marginBottom="50dp"/>
+        android:layout_marginBottom="15dp"/>
     <TextView
         android:id="@+id/text4"
         android:layout_width="wrap_content"
@@ -54,7 +54,7 @@
         android:textSize="20sp"
         android:fontFamily="@font/roboto_regular"
         android:layout_marginStart="25dp"
-        android:layout_marginBottom="50dp"/>
+        android:layout_marginBottom="15dp"/>
     <TextView
         android:id="@+id/text5"
         android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
         android:textSize="20sp"
         android:fontFamily="@font/roboto_regular"
         android:layout_marginStart="25dp"
-        android:layout_marginBottom="50dp"/>
+        android:layout_marginBottom="15dp"/>
 
 
 </LinearLayout>

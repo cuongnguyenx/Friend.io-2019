@@ -64,15 +64,17 @@ public class MainActivity extends AppCompatActivity {
         ValueEventListener userListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                mText1.setText(dataSnapshot.child("firstName").getValue().toString());
-                mText2.setText(dataSnapshot.child("lastName").getValue().toString());
-                mText3.setText(String.valueOf(dataSnapshot.child("age").getValue().toString()));
-                mText4.setText(dataSnapshot.child("bio").getValue().toString());
-                mText5.setText(dataSnapshot.child("interest").getValue().toString());
 
                 byte[] decodedString = Base64.decode(dataSnapshot.child("encodedProfilePicture").getValue().toString(), Base64.DEFAULT);
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                 mImage1.setImageBitmap(decodedByte);
+
+                mText1.setText(dataSnapshot.child("firstName").getValue().toString());
+                mText2.setText(dataSnapshot.child("lastName").getValue().toString());
+                mText3.setText(dataSnapshot.child("age").getValue().toString());
+                mText4.setText(dataSnapshot.child("bio").getValue().toString());
+                mText5.setText(dataSnapshot.child("interest").getValue().toString());
+
             }
 
             @Override
