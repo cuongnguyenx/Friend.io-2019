@@ -17,19 +17,34 @@ public class User {
     private String mStatus;
     private int mAge;
 
-
     // Setting status
     public void setStatusAvail() {
         mStatus = "AVAIL";
     }
+
     public void setStatusUnavail() {
         mStatus = "UNAVAIL";
+    }
+
+    public User() {
+        // Default constructor required for calls to DataSnapshot.getValue(Post.class)
+    }
+
+    public User(String firstName, String lastName, String bio, String encodedProfilePicture,
+                int age, String interest) {
+        this.mFirstName = firstName;
+        this.mLastName = lastName;
+        this.mBio = bio;
+        this.mEncodedProfilePicture = encodedProfilePicture;
+        this.mAge = age;
+        this.mInterest = interest;
     }
 
     // Age
     public void setAge(int age) {
         mAge = age;
     }
+
     public int getAge() {
         return mAge;
     }
@@ -49,9 +64,10 @@ public class User {
         mLastName = lastName;
     }
 
-    public void setBio(String bio){
+    public void setBio(String bio) {
         mBio = bio;
     }
+
     public String getBio() {
         return mBio;
     }
@@ -60,6 +76,7 @@ public class User {
     public String getFirstName() {
         return mFirstName;
     }
+
     public String getLastName() {
         return mLastName;
     }
