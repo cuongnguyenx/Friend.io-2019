@@ -33,6 +33,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 public class EmailPasswordActivity extends AppCompatActivity implements
         View.OnClickListener {
 
@@ -46,6 +52,11 @@ public class EmailPasswordActivity extends AppCompatActivity implements
     // [START declare_auth]
     private FirebaseAuth mAuth;
     // [END declare_auth]
+
+    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users");
+    DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference("location");
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,10 +110,22 @@ public class EmailPasswordActivity extends AppCompatActivity implements
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                         } else {
+                            Log.d("asd", task.getException().toString());
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            if (task.getException().toString().contains("FirebaseAuthUserCollisionException")) {
+                                Toast.makeText(EmailPasswordActivity.this, "There is already an account created with this email",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+
+                            else if (task.getException().toString().contains("FirebaseAuthWeakPasswordException")) {
+                                Toast.makeText(EmailPasswordActivity.this, "The password is too short. Please create a password that is longer than 6 characters",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
                             updateUI(null);
                         }
 
@@ -130,13 +153,47 @@ public class EmailPasswordActivity extends AppCompatActivity implements
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            final FirebaseUser user = mAuth.getCurrentUser();
+                            final User userToBeAdded = new User("Cuong", "Nguyen", "asd",
+                                    "d231", 19, "soccer");
+
+                            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.hasChild(user.getUid())) {
+                                        Log.d("User Exists!", "11111");
+                                        // Proceed to Main App
+                                    }
+                                    else {
+                                        Log.d("User Does Not Exists!", "22222");
+                                        userRef.child(user.getUid()).setValue(userToBeAdded);
+                                        // Proceed to Registration Screen
+                                    }
+                                    // check if data for the current user exist in the database. If not, redirect to registration screen
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+                            if (!user.isEmailVerified())
+                            {
+                                Toast.makeText(EmailPasswordActivity.this, "Please verify your email before logging in.",
+                                        Toast.LENGTH_SHORT).show();
+                                updateUI(null);
+                            }
+                            else {
+                                updateUI(user);
+                            }
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
+
                             Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
+
                             updateUI(null);
                         }
 
