@@ -1,14 +1,55 @@
 package com.example.friendio_2019;
 
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 public class Database {
     private DatabaseReference mUserDatabase;
 
+    private ArrayList<User> mUserList;
+
     public Database() {
         mUserDatabase = FirebaseDatabase.getInstance().getReference("users");
+
+        // Add listener to get all user data
+        mUserDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                collectAllUsers((Map<String,Object>) dataSnapshot.getValue());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void collectAllUsers(Map<String, Object> users) {
+        ArrayList<User> userList = new ArrayList<>();
+
+        if (users != null) {
+            for (Map.Entry<String, Object> entry: users.entrySet()) {
+                Map singleUser = (Map) entry.getValue();
+                userList.add((User) singleUser);
+            }
+        }
+
+        mUserList = userList;
+
+    }
+
+    public ArrayList<User> getUsers() {
+        return mUserList;
     }
 
     public DatabaseReference getUserDatabaseReference() {
@@ -27,4 +68,5 @@ public class Database {
         mUserDatabase.child(userID).child("latitude").setValue(user.getLatitude());
         mUserDatabase.child(userID).child("longitude").setValue(user.getLatitude());
     }
+
 }
