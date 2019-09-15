@@ -15,19 +15,10 @@ public class User {
     private String mBio;
     private String mEncodedProfilePicture;
     private String mInterest;
-    private String mStatus;
-    private int mAge;
+    private boolean mStatus;
+    private long mAge;
     private double mLatitude;
     private double mLongitude;
-
-    // Setting status
-    public void setStatusAvail() {
-        mStatus = "AVAIL";
-    }
-
-    public void setStatusUnavail() {
-        mStatus = "UNAVAIL";
-    }
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
@@ -41,28 +32,28 @@ public class User {
         this.mEncodedProfilePicture = encodedProfilePicture;
         this.mAge = age;
         this.mInterest = interest;
-        this.mLatitude = this.mLongitude = 0.0;
-        this.mStatus = "AVAIL";
+        this.mLatitude = this.mLongitude = 0.01;
+        this.mStatus = true;
     }
 
     public User(Map<String, Object> user) {
         this.mFirstName = (String) user.get("firstname");
         this.mLastName = (String) user.get("lastname");
         this.mBio = (String) user.get("bio");
-        this.mAge = (int) user.get("age");
+        this.mAge = (long) user.get("age");
         this.mInterest = (String) user.get("interest");
         this.mEncodedProfilePicture = (String) user.get("profilepic");
-        this.mStatus = (String) user.get("status");
+        this.mStatus = (boolean) user.get("status");
         this.mLatitude = (double) user.get("latitude");
         this.mLongitude = (double) user.get("longitude");
     }
 
     // Age
-    public void setAge(int age) {
+    public void setAge(long age) {
         mAge = age;
     }
 
-    public int getAge() {
+    public long getAge() {
         return mAge;
     }
 
@@ -100,11 +91,7 @@ public class User {
 
     // Returns true if the user is available
     public boolean isAvail() {
-        if (mStatus == "AVAIL") {
-            return true;
-        } else {
-            return false;
-        }
+        return mStatus;
     }
 
     // Coordinates

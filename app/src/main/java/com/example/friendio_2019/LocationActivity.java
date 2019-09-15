@@ -11,7 +11,6 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.firebase.database.DatabaseReference;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -22,6 +21,8 @@ import androidx.core.content.ContextCompat;
 
 import android.os.Looper;
 
+import java.util.ArrayList;
+
 public class LocationActivity extends AppCompatActivity {
 
     private static final int LOCATION_PERMISSION = 1;
@@ -29,6 +30,8 @@ public class LocationActivity extends AppCompatActivity {
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
     private User user;
+    private Database database;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +40,11 @@ public class LocationActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Database localDatabase = new Database();
-        DatabaseReference ref = localDatabase.getUserDatabaseReference();
+        database = new Database();
+        userID = "123";
+        user = new User("a", "b", "c", "d", 17, "e");
+        database.writeUser(userID, user);
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         if (ContextCompat.checkSelfPermission(LocationActivity.this,
@@ -90,6 +96,8 @@ public class LocationActivity extends AppCompatActivity {
                             })
                             .create()
                             .show();
+
+
                 }
             }
         }
@@ -111,8 +119,8 @@ public class LocationActivity extends AppCompatActivity {
                     if (location == null) {
                         continue;
                     }
-                    Double latitude = location.getLatitude();
-                    Double longitude = location.getLongitude();
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
                     new AlertDialog.Builder(LocationActivity.this)
                             .setTitle("Current location")
                             .setMessage(latitude + " " + longitude)
@@ -124,6 +132,15 @@ public class LocationActivity extends AppCompatActivity {
                             })
                             .create()
                             .show();
+                    user.setLatitude(latitude);
+                    user.setLongitude(longitude);
+                    database.writeUser(userID, user);
+                    ArrayList<User> userList = database.getUsers();
+                    for (User otherUser : userList) {
+                        if (distance(user, otherUser) <= 30) {
+                            System.out.println(otherUser.getFirstName() + distance(user, otherUser));
+                        }
+                    }
                 }
             }
         };
@@ -131,5 +148,21 @@ public class LocationActivity extends AppCompatActivity {
         fusedLocationClient.requestLocationUpdates(locationRequest,
                 locationCallback,
                 Looper.getMainLooper());
+    }
+
+    private double distance(User a, User b) {
+        double lat1 = a.getLatitude(), lon1 = a.getLongitude();
+        double lat2 = b.getLatitude(), lon2 = b.getLongitude();
+        if ((lat1 == lat2) && (lon1 == lon2)) {
+            return 0;
+        }
+        else {
+            double theta = lon1 - lon2;
+            double dist = Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2)) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.cos(Math.toRadians(theta));
+            dist = Math.acos(dist);
+            dist = Math.toDegrees(dist);
+            dist = dist * 0.01308522727;
+            return dist;
+        }
     }
 }

@@ -18,7 +18,7 @@ public class Database {
     private ArrayList<User> mUserList;
 
     public Database() {
-        mUserDatabase = FirebaseDatabase.getInstance().getReference("users");
+        mUserDatabase = FirebaseDatabase.getInstance().getReference("testing-users");
 
         // Add listener to get all user data
         mUserDatabase.addValueEventListener(new ValueEventListener() {
@@ -57,7 +57,7 @@ public class Database {
         return mUserDatabase;
     }
 
-    public void writeNewUser(String userID, User user) {
+    public void writeUser(String userID, User user) {
 
         mUserDatabase.child(userID).child("firstname").setValue(user.getFirstName());
         mUserDatabase.child(userID).child("lastname").setValue(user.getLastName());
