@@ -6,8 +6,11 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.EventListener;
 import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -30,11 +34,13 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText mText4;
     private EditText mText5;
     private ImageView mImage1;
+    private Button mUpdateButton;
     private FirebaseAuth mAuth;
     private User currentUser;
     private String currentUserID;
     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users");
     DatabaseReference locationRef = FirebaseDatabase.getInstance().getReference("location");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,71 @@ public class ProfileActivity extends AppCompatActivity {
 
         setData();
 
+        mUpdateButton = findViewById(R.id.buttonUpdate);
+        mUpdateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!validateForm())
+                {
+                    return;
+                }
+                userRef.child(currentUserID).child("firstName").setValue(mText1.getText().toString());
+                userRef.child(currentUserID).child("lastName").setValue(mText1.getText().toString());
+                userRef.child(currentUserID).child("age").setValue(mText1.getText().toString());
+                userRef.child(currentUserID).child("interest").setValue(mText1.getText().toString());
+                userRef.child(currentUserID).child("bio").setValue(mText1.getText().toString());
+
+            }
+        });
+
+
+    }
+
+    private boolean validateForm() {
+        boolean valid = true;
+
+        String firstName = mText1.getText().toString();
+        if (TextUtils.isEmpty(firstName)) {
+            mText1.setError("Required.");
+            valid = false;
+        } else {
+            mText1.setError(null);
+        }
+
+        String lastName = mText2.getText().toString();
+        if (TextUtils.isEmpty(lastName)) {
+            mText2.setError("Required.");
+            valid = false;
+        } else {
+            mText2.setError(null);
+        }
+
+        String age = mText3.getText().toString();
+        if (TextUtils.isEmpty(age)) {
+            mText3.setError("Required.");
+            valid = false;
+            if (TextUtils.isEmpty(lastName)) {
+            } else {
+                mText3.setError(null);
+            }
+
+            String interests = mText4.getText().toString();
+            if (TextUtils.isEmpty(interests)) {
+                mText4.setError("Required.");
+                valid = false;
+            } else {
+                mText4.setError(null);
+            }
+
+            String bio = mText5.getText().toString();
+            if (TextUtils.isEmpty(bio)) {
+                mText5.setError("Required.");
+                valid = false;
+            } else {
+                mText5.setError(null);
+            }
+        }
+        return valid;
     }
 
     private void setCurrentUser(User user)
