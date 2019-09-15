@@ -6,6 +6,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.util.Base64;
 import android.widget.ImageView;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.ByteArrayOutputStream;
 import java.util.Map;
 
@@ -107,9 +109,9 @@ public class User {
         this.longitude = longitude;
     }
 
-    public double getLongitude() {
-        return this.longitude;
-    }
+    public double getLongitude() { return this.longitude; }
+
+    public LatLng getLatLng() { return new LatLng(this.latitude, this.longitude); }
 
     // Takes an ImageView and converts it into String to store in database
     public void setEncodedProfilePicture(ImageView profilePicImageView) {

@@ -74,7 +74,7 @@ public class Database {
         mUserDatabase.child(userID).child("encodedProfilePicture").setValue(user.getEncodedProfilePicture());
         mUserDatabase.child(userID).child("status").setValue(user.getStatus());
         mUserDatabase.child(userID).child("latitude").setValue(user.getLatitude());
-        mUserDatabase.child(userID).child("longitude").setValue(user.getLatitude());
+        mUserDatabase.child(userID).child("longitude").setValue(user.getLongitude());
     }
 
 }
