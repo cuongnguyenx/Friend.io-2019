@@ -40,7 +40,7 @@ public class LocationActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        database = new Database(userID);
+        database = new Database();
         userID = "123";
         user = new User("a", "b", "c", "d", 17, "e");
         database.writeUser(userID, user);

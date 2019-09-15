@@ -64,16 +64,20 @@ public class MainActivity extends AppCompatActivity {
         // Database db = new Database(currentUserID);
         // db.initDatabase();
         // User currentUser = db.getCurrentUser();
-        Log.d("Dsads", currentUser.getFirstName());
-
+        // Log.d("sdd", currentUser.getFirstName());
     }
 
+    private void setCurrentUser(User user)
+    {
+        this.currentUser = user;
+    }
     private void setData()
     {
         ValueEventListener userListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currentUser = new User((Map<String, Object>) dataSnapshot.getValue());
+                setCurrentUser(currentUser);
                 Log.d("dasd", currentUser.getFirstName());
 
                 byte[] decodedString = Base64.decode(currentUser.getEncodedProfilePicture(), Base64.DEFAULT);
