@@ -41,6 +41,7 @@ public class User {
         this.mAge = age;
         this.mInterest = interest;
         this.mLatitude = this.mLongitude = 0.0;
+        this.mStatus = "AVAIL";
     }
 
     // Age
