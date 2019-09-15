@@ -34,6 +34,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private Button mAddProfileImage;
     private TextView mProfileImageName;
 
+
     private FirebaseAuth mAuth;
 
     @Override
@@ -61,7 +62,11 @@ public class RegistrationActivity extends AppCompatActivity {
         mAddProfileImage = findViewById(R.id.addImageButton);
         mProfileImageName = findViewById(R.id.profileImageText);
 
+        mAuth = FirebaseAuth.getInstance();
+
     }
+
+    private void createDataForAccount
 
     private boolean validateForm() {
         boolean valid = true;
@@ -82,31 +87,42 @@ public class RegistrationActivity extends AppCompatActivity {
             mLastName.setError(null);
         }
 
-        if (TextUtils.isEmpty(lastName)) {
-            mLastName.setError("Required.");
+        String age = mAge.getText().toString();
+        if (TextUtils.isEmpty(age)) {
+            mAge.setError("Required.");
             valid = false;
         } else {
-            mLastName.setError(null);
+            mAge.setError(null);
         }
 
-
-        if (TextUtils.isEmpty(lastName)) {
-            mLastName.setError("Required.");
+        String interests = mInterests.getText().toString();
+        if (TextUtils.isEmpty(interests)) {
+            mInterests.setError("Required.");
             valid = false;
         } else {
-            mLastName.setError(null);
+            mInterests.setError(null);
         }
 
-
-        if (TextUtils.isEmpty(lastName)) {
-            mLastName.setError("Required.");
+        String bio = mBio.getText().toString();
+        if (TextUtils.isEmpty(bio)) {
+            mBio.setError("Required.");
             valid = false;
         } else {
-            mLastName.setError(null);
+            mBio.setError(null);
         }
 
 
         return valid;
-    }d
+    }
+
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+        if (i == R.id.createProfileButton) {
+            createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
+        } else if (i == R.id.addImageButton) {
+            signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
+        }
+    }
 
 }
