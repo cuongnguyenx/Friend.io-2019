@@ -7,6 +7,7 @@ import android.util.Base64;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Map;
 
 public class User {
     private String mFirstName;
@@ -42,6 +43,18 @@ public class User {
         this.mInterest = interest;
         this.mLatitude = this.mLongitude = 0.0;
         this.mStatus = "AVAIL";
+    }
+
+    public User(Map<String, Object> user) {
+        this.mFirstName = (String) user.get("firstname");
+        this.mLastName = (String) user.get("lastname");
+        this.mBio = (String) user.get("bio");
+        this.mAge = (int) user.get("age");
+        this.mInterest = (String) user.get("interest");
+        this.mEncodedProfilePicture = (String) user.get("profilepic");
+        this.mStatus = (String) user.get("status");
+        this.mLatitude = (double) user.get("latitude");
+        this.mLongitude = (double) user.get("longitude");
     }
 
     // Age
